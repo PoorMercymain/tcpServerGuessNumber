@@ -12,7 +12,7 @@ import (
 
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
-
+	var s int
 	rand.Seed(time.Now().UnixNano())
 	number := rand.Intn(100) + 1
 
@@ -35,7 +35,33 @@ func handleConnection(conn net.Conn) {
 
 		var response string
 
-		inputNumber, err := strconv.Atoi(inputStr)
+		input := strings.Split(inputStr, " ")
+		fmt.Println(input)
+		if len(input) < 2 {
+			fmt.Println("Ошибка: команда на угадывание числа должна содержать команду и число")
+			response = "Команда на угадывание числа должна содержать команду и число"
+			_, err = conn.Write([]byte(response))
+			if err != nil {
+				fmt.Println("Ошибка при отправке ответа:", err.Error())
+				return
+			}
+			fmt.Printf("Информация об ошибке отправлена клиенту %s\n", conn.RemoteAddr().String())
+			continue
+		}
+
+		if input[0] != "GUESS" {
+			fmt.Println("Некорректная команда: ожидалось GUESS")
+			response = "Некорректная команда"
+			_, err = conn.Write([]byte(response))
+			if err != nil {
+				fmt.Println("Ошибка при отправке ответа:", err.Error())
+				return
+			}
+			fmt.Printf("Информация об ошибке отправлена клиенту %s\n", conn.RemoteAddr().String())
+			continue
+		}
+
+		inputNumber, err := strconv.Atoi(input[1])
 		if err != nil {
 			fmt.Println("\"" + inputStr + "\"")
 			fmt.Println("Ошибка при конвертации запроса в число:", err)
