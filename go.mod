@@ -1,3 +1,3 @@
-module guessWord
+module guessNumber
 
 go 1.18

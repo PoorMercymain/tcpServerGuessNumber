@@ -12,7 +12,7 @@ import (
 
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
-	var s int
+	
 	rand.Seed(time.Now().UnixNano())
 	number := rand.Intn(100) + 1
 
