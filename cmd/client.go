@@ -6,7 +6,6 @@ import (
 	"net"
 	"os"
 	"strings"
-
 )
 
 func main() {

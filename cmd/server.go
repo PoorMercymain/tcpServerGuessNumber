@@ -7,12 +7,11 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
 )
 
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
-	
+
 	rand.Seed(time.Now().UnixNano())
 	number := rand.Intn(100) + 1
 
@@ -78,10 +77,10 @@ func handleConnection(conn net.Conn) {
 		if number < inputNumber {
 			response = "LESS"
 		} else if number > inputNumber {
-		    response = "MORE"
+			response = "MORE"
 		} else {
-            response = "EQUAL"
-        }
+			response = "EQUAL"
+		}
 
 		_, err = conn.Write([]byte(response))
 		if err != nil {
@@ -98,7 +97,7 @@ func handleConnection(conn net.Conn) {
 
 func main() {
 	port := "8080"
-	l, err := net.Listen("tcp", ":" + port)
+	l, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		fmt.Println("Ошибка при попытке начать прослушивание:", err.Error())
 		return
